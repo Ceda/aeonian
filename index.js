@@ -23,10 +23,6 @@ var s3 = null
 var cloudfront = null
 var client = null
 
-var revision = require('child_process')
-  .execSync('git rev-parse --short HEAD')
-  .toString().trim()
-
 var bucket = null
 var domain = null
 var environment = null
@@ -69,7 +65,7 @@ exports.deploy = (environment) => {
     this.error('Environment "' + environment + '" was not found in the config you passed')
   }
 
-  bucket = defaults.bucket.prefix + revision + '-' + environment
+  bucket = defaults.bucket.prefix +  environment
   domain = bucket + '.s3.amazonaws.com'
 
   this.listBuckets((buckets) => {
