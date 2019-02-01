@@ -27,6 +27,8 @@ var bucket = null
 var domain = null
 var environment = null
 
+AWS.config.update({region: 'eu-central-1'});
+
 exports.config = (cfg) => {
 
   spinner.succeed()
