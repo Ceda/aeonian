@@ -52,7 +52,7 @@ exports.config = (cfg) => {
 
   s3 = new AWS.S3()
   cloudfront = new AWS.CloudFront()
-  client = require('@faceleg/s3').createClient({ s3Client: new AWS.S3() })
+  client = require('@faceleg/s3').createClient({ s3Client: new AWS.S3({region: 'eu-central-1'}) })
 
   this.succeed()
 
@@ -66,7 +66,7 @@ exports.deploy = (environment) => {
   }
 
   bucket = defaults.bucket.prefix +  environment
-  domain = bucket + '.s3.amazonaws.com'
+  domain = bucket + '.s3-website-eu-central-1.amazonaws.com'
 
   this.listBuckets((buckets) => {
 
@@ -237,8 +237,8 @@ exports.updateCloudFrontOrigin = (id, domain, environment, complete) => {
         updateParams.IfMatch = updateParams.ETag
         delete updateParams.ETag
 
-        let previous = updateParams.Origins.Items[0].DomainName.replace('.s3.amazonaws.com', '')
-        let current = domain.replace('.s3.amazonaws.com', '')
+        let previous = updateParams.Origins.Items[0].DomainName.replace('.s3-website-eu-central-1.amazonaws.com', '')
+        let current = domain.replace('.s3-website-eu-central-1.amazonaws.com', '')
 
         updateParams.Origins.Items[0].DomainName = domain
         cloudfront.updateDistribution(updateParams, (terror, tdata) => {
